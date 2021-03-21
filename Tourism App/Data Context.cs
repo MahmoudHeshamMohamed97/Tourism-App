@@ -17,7 +17,7 @@ namespace Tourism_App
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Journey> Journeys { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Reserve> Reserves { get; set; }
         public DbSet<Passenger> Passengers { get; set; }
 
 

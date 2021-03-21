@@ -14,10 +14,15 @@ namespace Tourism_App
         public string Description { get; set; }
         public int MaxNumber { get; set; }
         public Type TravelWay { get; set; }
+        public int TicketCost { get; set; }
+        public int NumOfDays { get; set; }
+        public string Location { get; set; }
+        public DateTime Date { get; set; }
+        public int NumOfReservedChairs { get; set; }
 
 
 
-        public virtual List<Ticket> Tickets { get; set; }
+        public virtual List<Reserve> Reserves { get; set; }
 
     }
 

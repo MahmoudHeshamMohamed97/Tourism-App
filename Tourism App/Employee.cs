@@ -21,7 +21,7 @@ namespace Tourism_App
 
 
 
-        public virtual List<Ticket> Tickets { get; set; }
+        public virtual List<Reserve> Reserves { get; set; }
 
     }
 
