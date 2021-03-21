@@ -24,9 +24,61 @@ namespace Tourism_App
 
         private void EmployeeForm_Load(object sender, EventArgs e)
         {
-            IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
-                                            where (j.MaxNumber - j.NumOfReservedChairs) > 0
-                                            select j;
+            // Insert Filterations into Combo Boxes
+
+            //List<string> TravelWayList = new List<string>();
+            //TravelWayList.Add("");
+            //TravelWayList.Add(Type.Bus.ToString());
+            //TravelWayList.Add(Type.Plane.ToString());
+
+            //List<string> numOfDaysList = new List<string>();
+            //numOfDaysList.Add("");
+            //numOfDaysList.Add("1-3");
+            //numOfDaysList.Add("3-7");
+            //numOfDaysList.Add("7-15");
+
+            IEnumerable<string> TravelWayList = from t in Program._dbContext.Journeys
+                                                select t.TravelWay.ToString();
+            TravelWayList = TravelWayList.Distinct().ToList();
+            List<string> TravelWayListUpdated = new List<string>();
+            TravelWayListUpdated.Add("");
+            TravelWayListUpdated.AddRange(TravelWayList);
+
+
+            IEnumerable<string> numOfDaysList = from numofdays in Program._dbContext.Journeys
+                                             select numofdays.NumOfDays.ToString();
+            numOfDaysList = numOfDaysList.Distinct().ToList();
+            List<string> numOfDaysListUpdated = new List<string>();
+            numOfDaysListUpdated.Add("");
+            numOfDaysListUpdated.AddRange(numOfDaysList);
+
+
+
+            IEnumerable<string> LocationsList = from l in Program._dbContext.Journeys
+                                                select l.Location;
+            LocationsList = LocationsList.Distinct().ToList();
+            List<string> LocationsListUpdated = new List<string>();
+            LocationsListUpdated.Add("");
+            LocationsListUpdated.AddRange(LocationsList);
+
+
+            IEnumerable<string> DateList = from d in Program._dbContext.Journeys
+                                             select d.Date.ToString();
+            DateList = DateList.Distinct().ToList();
+            List<string> DateListUpdated = new List<string>();
+            DateListUpdated.Add("");
+            DateListUpdated.AddRange(DateList);
+
+            cmb_Date.DataSource = DateListUpdated;
+            cmb_location.DataSource = LocationsListUpdated;
+            cmb_numOfDays.DataSource = numOfDaysListUpdated;
+            cmb_travelWay.DataSource = TravelWayListUpdated;
+
+
+            // Insert Jouneys into DataGridView
+            IEnumerable< Journey > journeys = from j in Program._dbContext.Journeys
+                                               where (j.MaxNumber - j.NumOfReservedChairs) > 0
+                                               select j;
 
 
             data_Journeys.ColumnCount = 7;
@@ -103,6 +155,55 @@ namespace Tourism_App
             /*
                 Transfer the num of seats available to roqaia's page and display it
              */
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int budget = 0;
+            if (int.TryParse(txt_budget.Text, out budget) || txt_budget.Text == "")
+            {
+                lbl_budget.Visible = false;
+                IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
+                                                select j;
+
+                
+                if( cmb_travelWay.SelectedItem.ToString() != "")
+                    journeys = journeys.Where(j => j.TravelWay.ToString() == cmb_travelWay.SelectedItem.ToString());
+                
+                if( cmb_location.SelectedItem.ToString() != "" )
+                    journeys = journeys.Where(j => j.Location == cmb_location.SelectedItem.ToString());
+
+                if( cmb_numOfDays.SelectedItem.ToString() != "" )
+                    journeys = journeys.Where(j => j.NumOfDays.ToString() == cmb_numOfDays.SelectedItem.ToString());
+
+                if( cmb_Date.SelectedItem.ToString() != "" )
+                    journeys = journeys.Where(j => j.Date == DateTime.Parse(cmb_Date.SelectedItem.ToString())  );
+
+                
+
+                if (budget > 0)
+                    journeys = journeys.Where( j => j.TicketCost <= budget );
+
+
+                data_Journeys.Rows.Clear();
+                foreach (var item in journeys)
+                {
+                    data_Journeys.Rows.Add(new string[]
+                    {
+                        item.Title,
+                        item.Description,
+                        item.TravelWay.ToString(),
+                        item.TicketCost.ToString(),
+                        item.NumOfDays.ToString(),
+                        item.Date.ToString(),
+                        (item.MaxNumber - item.NumOfReservedChairs).ToString()
+                    });
+                }
+
+
+            }
+            else
+                lbl_budget.Visible = true;
         }
     }
 }

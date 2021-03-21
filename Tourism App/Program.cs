@@ -105,7 +105,7 @@ namespace Tourism_App
 
             #endregion
 
-            Application.Run(new Form1());
+            Application.Run(new EmployeeForm());
 
         }
     }
