@@ -21,5 +21,14 @@ namespace Tourism_App
         public DbSet<Passenger> Passengers { get; set; }
 
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Configurations.Add(new EmployeeConfigrations());
+            modelBuilder.Configurations.Add(new JourneyConfigrations());
+            modelBuilder.Configurations.Add(new PassengerConfigrations());
+            modelBuilder.Configurations.Add(new ReserveConfigration());
+        }
+
     }
 }
