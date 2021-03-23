@@ -15,3 +15,20 @@ D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism App.exe
 D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism App.pdb
 D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism_App.EmployeeForm.resources
 D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism_App.LoginForm.resources
+E:\ITI\Tourism-App\Tourism App\bin\Debug\Tourism App.exe.config
+E:\ITI\Tourism-App\Tourism App\bin\Debug\Tourism App.exe
+E:\ITI\Tourism-App\Tourism App\bin\Debug\Tourism App.pdb
+E:\ITI\Tourism-App\Tourism App\bin\Debug\EntityFramework.dll
+E:\ITI\Tourism-App\Tourism App\bin\Debug\EntityFramework.SqlServer.dll
+E:\ITI\Tourism-App\Tourism App\bin\Debug\EntityFramework.xml
+E:\ITI\Tourism-App\Tourism App\bin\Debug\EntityFramework.SqlServer.xml
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.csprojAssemblyReference.cache
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism_App.EmployeeForm.resources
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism_App.Form1.resources
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism_App.LoginForm.resources
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism_App.Properties.Resources.resources
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.csproj.GenerateResource.cache
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.csproj.CoreCompileInputs.cache
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.csproj.CopyComplete
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.exe
+E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.pdb

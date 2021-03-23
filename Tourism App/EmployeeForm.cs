@@ -104,7 +104,21 @@ namespace Tourism_App
             data_Journeys.Columns[6].HeaderText = "Available Seats";
             data_Journeys.Columns[6].Name = "AvailableSeats";
 
+            //rerservation data 
+            Reservationdgv.ColumnCount = 4;
+            Reservationdgv.Columns[0].HeaderText = "Reservation ID";
+            Reservationdgv.Columns[0].Name = "ReservationID";
 
+            Reservationdgv.Columns[1].HeaderText = "Journey Name";
+            Reservationdgv.Columns[1].Name = "JournyName";
+
+            Reservationdgv.Columns[2].HeaderText = "Passenger Name";
+            Reservationdgv.Columns[2].Name = "PassengerName";
+
+            Reservationdgv.Columns[3].HeaderText = "Number of Tickets";
+            Reservationdgv.Columns[3].Name = "NumOfTickets";
+
+            loaddata();
 
             foreach (var item in journeys)
             {
@@ -204,6 +218,120 @@ namespace Tourism_App
             }
             else
                 lbl_budget.Visible = true;
+        }
+
+        private void Reservationdgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            
+            foreach (DataGridViewRow item in Reservationdgv.SelectedRows)
+            {
+                    int id = int.Parse(Reservationdgv.Rows[item.Index].Cells[0].Value.ToString());
+
+                var deleted = (from d in Program._dbContext.Reserves
+                               where d.ID == id
+                               select d).First();
+                deleted.Journey.NumOfReservedChairs -= deleted.NumOfTickets;
+                Program._dbContext.Reserves.Remove(deleted);
+                Program._dbContext.SaveChanges();
+               
+                
+              
+            }
+            Reservationdgv.Rows.Clear();
+            loaddata();
+            
+        }
+        public void loaddata()
+        {
+
+            IEnumerable<Reserve> Reservations = (from r in Program._dbContext.Reserves.Include("Employee").Include("Passenger").Include("Journey")
+                                                 select r) ;
+            
+            foreach (var item in Reservations)
+            {
+                Reservationdgv.Rows.Add(new string[] { item.ID.ToString(), item.Journey.Title, item.Passenger.Name,item.NumOfTickets.ToString() });
+            }
+        }
+
+        private void btnupdate_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in Reservationdgv.SelectedRows)
+            {
+              richreserveid.Text =Reservationdgv.Rows[item.Index].Cells[0].Value.ToString();
+                richnumoftickets.Text = Reservationdgv.Rows[item.Index].Cells[3].Value.ToString();
+            }
+            int id = int.Parse(richreserveid.Text);
+            var updated = (from d in Program._dbContext.Reserves
+                           where d.ID == id
+                           select d).FirstOrDefault();
+            updated.Journey.NumOfReservedChairs -= updated.NumOfTickets;
+            Program._dbContext.SaveChanges();
+            btnupdate.Visible = false;
+            btnsave.Visible = true;
+        }
+
+        private void btnsave_Click(object sender, EventArgs e)
+        {
+            int id = int.Parse(richreserveid.Text);
+            var updated = (from d in Program._dbContext.Reserves
+                           where d.ID == id
+                           select d).FirstOrDefault();
+            
+            if (updated != null)
+            {
+
+                if (updated.Journey.MaxNumber - (updated.Journey.NumOfReservedChairs + int.Parse(richnumoftickets.Text)) >= 0)
+                {
+                    updated.NumOfTickets = int.Parse(richnumoftickets.Text);
+                    updated.Journey.NumOfReservedChairs += updated.NumOfTickets;
+                    Program._dbContext.SaveChanges();
+                    Reservationdgv.Rows.Clear();
+                    loaddata();
+                    data_Journeys.Rows.Clear();
+                    loadjourneys();
+                    cleartextboxs();
+                    btnsave.Visible = false;
+                    btnupdate.Visible = true;
+                }
+                else
+                {
+                    MessageBox.Show("you exceeded the max number");
+                }
+
+               
+            }
+            else
+                MessageBox.Show("Not Found");
+
+            
+        }
+        public void cleartextboxs()
+        {
+            richnumoftickets.Text = "";
+            richreserveid.Text = "";
+        }
+        public void loadjourneys()
+        {
+            IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
+                                            select j;
+            foreach (var item in journeys)
+            {
+              
+                data_Journeys.Rows.Add(new string[]
+                {
+                        item.Title,
+                        item.Description,
+                        item.TravelWay.ToString(),
+                        item.TicketCost.ToString(),
+                        item.NumOfDays.ToString(),
+                        item.Date.ToString(),
+                        (item.MaxNumber - item.NumOfReservedChairs).ToString()
+                });
+            }
         }
     }
 }
