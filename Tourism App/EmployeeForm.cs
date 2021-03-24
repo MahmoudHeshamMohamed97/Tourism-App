@@ -166,9 +166,9 @@ namespace Tourism_App
 
         private void btn_book_Click(object sender, EventArgs e)
         {
-            /*
-                Transfer the num of seats available to roqaia's page and display it
-             */
+            
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -27,7 +27,12 @@ namespace Tourism_App
             {
                 lbl_Error.Visible = false;
                 if (obj.IsAdmin)
+                {
                     MessageBox.Show("Hello Admin");
+                    Form2 form2 = new Form2();
+                    this.Hide();
+                    form2.Show();
+                }
                 else
                 {
                     MessageBox.Show("Hello Employee");

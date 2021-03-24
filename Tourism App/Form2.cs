@@ -101,6 +101,20 @@ namespace Tourism_App
             dataGridView2.Columns[9].Name = "NumOfReservedChairs";
             dataGridView2.Columns[9].HeaderText = "NumOfReservedChairs";
 
+            IEnumerable<string> types = from j in Program._dbContext.Journeys
+                                      select j.TravelWay.ToString();
+
+
+            #region Binding the DropDownList of Travel Ways
+
+            types = types.Distinct().ToList();
+            List<string> TypesList = new List<string>();
+            TypesList.Add("");
+            TypesList.AddRange(types);
+
+            cmb_TravelWay.DataSource = TypesList;
+
+            #endregion
 
 
             //Create Object from DtaContext
@@ -115,7 +129,7 @@ namespace Tourism_App
             foreach (var item in Emp)
             {
 
-                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender, item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
+                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender.ToString(), item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
 
             }
 
@@ -129,7 +143,7 @@ namespace Tourism_App
             foreach (var item in Journ)
             {
 
-                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay, item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(),item.NumOfReservedChairs.ToString() });
+                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay.ToString(), item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(),item.NumOfReservedChairs.ToString() });
 
             }
 
@@ -210,7 +224,7 @@ namespace Tourism_App
             foreach (var item in Emp)
             {
 
-                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender, item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
+                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender.ToString(), item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
 
             }
 
@@ -229,7 +243,12 @@ namespace Tourism_App
         {
             //update
             string Name = textBox2.Text.ToString();
-            string Gender = textBox3.Text.ToString();
+            string GenderTxt = textBox3.Text.ToString();
+            Gender gender = Gender.female;
+            if (GenderTxt.ToLower() == "male")
+            {
+                gender = Gender.male;
+            }
             int Age = int.Parse(textBox4.Text);
             string Email = textBox5.Text.ToString();
             string Password = textBox6.Text.ToString();
@@ -248,7 +267,7 @@ namespace Tourism_App
             //Update Data
 
             D_Emp.Name = Name;
-            D_Emp.Gender = Gender;
+            D_Emp.Gender = gender;
             D_Emp.Age = Age;
             D_Emp.Email = Email;
             D_Emp.Password = Password;
@@ -284,7 +303,7 @@ namespace Tourism_App
             foreach (var item in Emp)
             {
 
-                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender, item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
+                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender.ToString(), item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
 
             }
 
@@ -354,7 +373,7 @@ namespace Tourism_App
             foreach (var item in Emp)
             {
 
-                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender, item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
+                dataGridView1.Rows.Add(new String[] { item.ID.ToString(), item.Name, item.Gender.ToString(), item.Age.ToString(), item.Email, item.Password, item.Phone, item.IsAdmin.ToString(), item.NationalID.ToString() });
 
             }
 
@@ -433,7 +452,12 @@ namespace Tourism_App
                 textBox11.Text = row.Cells["Title"].Value.ToString();
                 textBox12.Text = row.Cells["Description"].Value.ToString();
                 textBox13.Text = row.Cells["MaxNumber"].Value.ToString();
-                textBox14.Text = row.Cells["TravelWay"].Value.ToString();
+                //textBox14.Text = row.Cells["TravelWay"].Value.ToString();
+                string travelway = row.Cells["TravelWay"].Value.ToString();
+                cmb_TravelWay.SelectedItem = "Bus";
+                if (travelway.ToLower() == "plane")
+                    cmb_TravelWay.SelectedItem = "Plane";
+                
                 textBox15.Text = row.Cells["TicketCost"].Value.ToString();
                 textBox16.Text = row.Cells["NumOfDays"].Value.ToString();
                 textBox17.Text = row.Cells["Location"].Value.ToString();
@@ -504,7 +528,16 @@ namespace Tourism_App
             string Title = textBox11.Text.ToString();
             string Descrption =textBox12.Text.ToString();
             int Maxnumber = int.Parse(textBox13.Text);
-            string Travalway = textBox14.Text.ToString();
+            string Travelway = cmb_TravelWay.SelectedItem.ToString();
+            Type travel = Type.Bus;
+            if (Travelway.ToLower() == "plane")
+                travel = Type.Plane;
+            //string Travalway = textBox14.Text.ToString();
+            //Type gender = Gender.female;
+            //if (Gendertxt.ToLower() == "male")
+            //{
+            //    gender = Gender.male;
+            //}
             int tickectcost =int.Parse( textBox15.Text.ToString());
             int  NDay = int.Parse(textBox16.Text.ToString());
             string Location = textBox17.Text.ToString();
@@ -519,7 +552,7 @@ namespace Tourism_App
                 Title = Title,
                 Description = Descrption,
                 MaxNumber = Maxnumber,
-                TravelWay = Travalway,
+                TravelWay = travel,
                 TicketCost = tickectcost,
                 NumOfDays = NDay,
                 Location = Location,
@@ -545,7 +578,8 @@ namespace Tourism_App
             textBox11.Text = "";
             textBox12.Text = "";
             textBox13.Text = "";
-            textBox14.Text = "";
+            //textBox14.Text = "";
+            
             textBox15.Text = "";
             textBox16.Text = "";
             textBox17.Text = "";
@@ -569,7 +603,7 @@ namespace Tourism_App
             foreach (var item in Jo)
             {
 
-                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay, item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
+                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay.ToString(), item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
 
             }
 
@@ -586,7 +620,9 @@ namespace Tourism_App
             string Title = textBox11.Text.ToString();
             string Descrption = textBox12.Text.ToString();
             int Maxnumber = int.Parse(textBox13.Text);
-            string Travalway = textBox14.Text.ToString();
+            Type Travalway = Type.Bus;/*textBox14.Text.ToString();*/
+            if( cmb_TravelWay.SelectedItem.ToString().ToLower() == "plane" )
+                Travalway = Type.Plane;
             int tickectcost = int.Parse(textBox15.Text.ToString());
             int NDay = int.Parse(textBox16.Text.ToString());
             string Location = textBox17.Text.ToString();
@@ -612,7 +648,8 @@ namespace Tourism_App
             textBox11.Text = "";
             textBox12.Text = "";
             textBox13.Text = "";
-            textBox14.Text = "";
+            //textBox14.Text = "";
+
             textBox15.Text = "";
             textBox16.Text = "";
             textBox17.Text = "";
@@ -632,7 +669,7 @@ namespace Tourism_App
             foreach (var item in Emp)
             {
 
-                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay, item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
+                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay.ToString(), item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
 
             }
 
@@ -646,8 +683,9 @@ namespace Tourism_App
             string Title = textBox11.Text.ToString();
             string Descrption = textBox12.Text.ToString();
             int Maxnumber = int.Parse(textBox13.Text.ToString());
-            string Travalway = textBox14.Text.ToString();
-            int tickectcost = int.Parse(textBox15.Text.ToString());
+            Type Travalway = Type.Bus;/*textBox14.Text.ToString();*/
+            if (cmb_TravelWay.SelectedItem.ToString().ToLower() == "plane")
+                Travalway = Type.Plane; int tickectcost = int.Parse(textBox15.Text.ToString());
             int NDay = int.Parse(textBox16.Text.ToString());
             string Location = textBox17.Text.ToString();
             DateTime dtime = DateTime.Parse(textBox18.Text.ToString());
@@ -682,7 +720,8 @@ namespace Tourism_App
             textBox11.Text = "";
             textBox12.Text = "";
             textBox13.Text = "";
-            textBox14.Text = "";
+            //textBox14.Text = "";
+            cmb_TravelWay.SelectedItem = "";
             textBox15.Text = "";
             textBox16.Text = "";
             textBox17.Text = "";
@@ -702,7 +741,7 @@ namespace Tourism_App
             foreach (var item in Emp)
             {
 
-                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay, item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
+                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay.ToString(), item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
 
             }
 
