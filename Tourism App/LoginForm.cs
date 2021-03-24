@@ -12,6 +12,7 @@ namespace Tourism_App
 {
     public partial class LoginForm : Form
     {
+        public static int EmpID;
         public LoginForm()
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace Tourism_App
             Employee obj = (from emp in Program._dbContext.Employees
                            where emp.Email == txt_UserName.Text && emp.Password == txt_Password.Text
                            select emp).FirstOrDefault();
-
+            EmpID = obj.ID;
             if (obj != null)
             {
                 lbl_Error.Visible = false;
