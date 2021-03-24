@@ -14,7 +14,7 @@ namespace Tourism_App
 {
     public partial class Booked : Form
     {
-        Data_Context Context = new Data_Context();
+        //Data_Context Context = new Data_Context();
         Passenger p = new Passenger();
         int Passenger_ID;
         Reserve R = new Reserve();
@@ -37,16 +37,18 @@ namespace Tourism_App
             //Context.SaveChanges();
 
             Passenger_ID = p.ID;
-            R.JourneyID = 1;
+            R.JourneyID = this.Journeys_id;
             R.PassengerID = Passenger_ID;
             R.NumOfTickets = int.Parse(textBox5.Text);
             R.EmployeeID = LoginForm.EmpID;
+
             //R.Passenger = p;
 
             // Context.Reserves.Add(R);
-            Journey J = (from j in Context.Journeys
+            Journey J = (from j in Program._dbContext.Journeys
                          where j.ID == Journeys_id
                          select j).FirstOrDefault();
+
             avilable = J.MaxNumber - J.NumOfReservedChairs;
             if (avilable < int.Parse(textBox5.Text))
             {
@@ -54,12 +56,16 @@ namespace Tourism_App
             }
             else
             {
-                Context.Passengers.Add(p);
-                Context.SaveChanges();
+                Program._dbContext.Passengers.Add(p);
+                Program._dbContext.SaveChanges();
+
+                //MessageBox.Show(J.NumOfReservedChairs.ToString());
                 J.NumOfReservedChairs += int.Parse(textBox5.Text);
+                //MessageBox.Show(J.NumOfReservedChairs.ToString());
+
                 R.PassengerID = p.ID;
-                Context.Reserves.Add(R);
-                Context.SaveChanges();
+                Program._dbContext.Reserves.Add(R);
+                Program._dbContext.SaveChanges();
                 MessageBox.Show("Booked Done");
 
                 #region Send e-mail To Passenger on his Mail
@@ -69,9 +75,12 @@ namespace Tourism_App
 
                     MailMessage msg = new MailMessage();
                     msg.From = new MailAddress("tourismappteam@gmail.com");
-                    msg.To.Add(textBox1.Text);
-                    msg.Subject = textBox2.Text;
-                    msg.Body = textBox3.Text;
+                    msg.To.Add(txt_email.Text);
+                    msg.Subject = "Tourism App Team";
+                    msg.Body = $"Dear {p.Name},\nThis Mail confirms that you have just booked {R.NumOfTickets} at " +
+                        $"{DateTime.Now.ToShortDateString().ToString()}\nHope for You a nice Journey,\nTourism App Team,\nRegards.";
+
+                    //msg.Attachments.Add(new Attachment("path"));
 
                     SmtpClient smt = new SmtpClient();
 
@@ -96,6 +105,9 @@ namespace Tourism_App
 
                 #endregion
 
+                EmployeeForm empForm = new EmployeeForm();
+                empForm.Show();
+                this.Hide();
 
             }
 
@@ -168,6 +180,11 @@ namespace Tourism_App
         }
 
         private void textEdit1_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Booked_Load(object sender, EventArgs e)
         {
 
         }

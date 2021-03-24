@@ -53,7 +53,7 @@ namespace Tourism_App
             this.button1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Green;
             this.button1.Location = new System.Drawing.Point(301, 462);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(131, 48);
             this.button1.TabIndex = 44;
@@ -64,7 +64,7 @@ namespace Tourism_App
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(201, 340);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(231, 22);
             this.textBox5.TabIndex = 43;
@@ -135,7 +135,7 @@ namespace Tourism_App
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(201, 263);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(231, 22);
             this.textBox4.TabIndex = 37;
@@ -155,7 +155,7 @@ namespace Tourism_App
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(201, 191);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(231, 22);
             this.textBox3.TabIndex = 35;
@@ -175,7 +175,7 @@ namespace Tourism_App
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(201, 112);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(231, 22);
             this.textBox2.TabIndex = 33;
@@ -195,7 +195,7 @@ namespace Tourism_App
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(201, 41);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(231, 22);
             this.textBox1.TabIndex = 31;
@@ -253,9 +253,10 @@ namespace Tourism_App
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Booked";
             this.Text = " ";
+            this.Load += new System.EventHandler(this.Booked_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

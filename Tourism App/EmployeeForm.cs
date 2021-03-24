@@ -76,10 +76,7 @@ namespace Tourism_App
 
 
             // Insert Jouneys into DataGridView
-            IEnumerable< Journey > journeys = from j in Program._dbContext.Journeys
-                                               where (j.MaxNumber - j.NumOfReservedChairs) > 0
-                                               select j;
-
+            
 
             data_Journeys.ColumnCount = 7;
 
@@ -104,21 +101,11 @@ namespace Tourism_App
             data_Journeys.Columns[6].HeaderText = "Available Seats";
             data_Journeys.Columns[6].Name = "AvailableSeats";
 
-            //rerservation data 
-            Reservationdgv.ColumnCount = 4;
-            Reservationdgv.Columns[0].HeaderText = "Reservation ID";
-            Reservationdgv.Columns[0].Name = "ReservationID";
+            //data_Journeys.Rows.Clear();
 
-            Reservationdgv.Columns[1].HeaderText = "Journey Name";
-            Reservationdgv.Columns[1].Name = "JournyName";
-
-            Reservationdgv.Columns[2].HeaderText = "Passenger Name";
-            Reservationdgv.Columns[2].Name = "PassengerName";
-
-            Reservationdgv.Columns[3].HeaderText = "Number of Tickets";
-            Reservationdgv.Columns[3].Name = "NumOfTickets";
-
-            loaddata();
+            IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
+                                            where (j.MaxNumber - j.NumOfReservedChairs) > 0
+                                            select j;
 
             foreach (var item in journeys)
             {
@@ -141,6 +128,24 @@ namespace Tourism_App
                 //data_Journeys.Columns[6] = (item.MaxNumber - item.NumOfReservedChairs);
 
             }
+
+
+            //rerservation data 
+            Reservationdgv.ColumnCount = 4;
+            Reservationdgv.Columns[0].HeaderText = "Reservation ID";
+            Reservationdgv.Columns[0].Name = "ReservationID";
+
+            Reservationdgv.Columns[1].HeaderText = "Journey Name";
+            Reservationdgv.Columns[1].Name = "JournyName";
+
+            Reservationdgv.Columns[2].HeaderText = "Passenger Name";
+            Reservationdgv.Columns[2].Name = "PassengerName";
+
+            Reservationdgv.Columns[3].HeaderText = "Number of Tickets";
+            Reservationdgv.Columns[3].Name = "NumOfTickets";
+
+            loaddata();
+
 
         }
 
@@ -166,8 +171,23 @@ namespace Tourism_App
 
         private void btn_book_Click(object sender, EventArgs e)
         {
-            
 
+            if (data_Journeys.SelectedRows.Count > 0)
+            {
+                string compare = data_Journeys.SelectedRows[0].Cells[0].Value.ToString();
+                //MessageBox.Show(data_Journeys.SelectedRows[0].Cells[0].Value.ToString());
+                var journey = (from j in Program._dbContext.Journeys
+                                 where (j.Title.Equals( compare ) )
+                                 //&& j.Date.ToString() == data_Journeys.SelectedRows[0].Cells[5].Value.ToString()
+                                 select j).FirstOrDefault();
+
+                //MessageBox.Show(journey.ID.ToString());
+                Booked bookedForm = new Booked(journey.ID);
+                this.Hide();
+                bookedForm.Show();
+            }
+            else
+                MessageBox.Show("Please Select one row at least..");
 
         }
 
@@ -243,7 +263,8 @@ namespace Tourism_App
             }
             Reservationdgv.Rows.Clear();
             loaddata();
-            
+            data_Journeys.Rows.Clear();
+            loadjourneys();
         }
         public void loaddata()
         {
@@ -255,6 +276,10 @@ namespace Tourism_App
             {
                 Reservationdgv.Rows.Add(new string[] { item.ID.ToString(), item.Journey.Title, item.Passenger.Name,item.NumOfTickets.ToString() });
             }
+
+
+            
+
         }
 
         private void btnupdate_Click(object sender, EventArgs e)

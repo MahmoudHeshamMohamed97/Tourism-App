@@ -394,7 +394,7 @@
         private System.Windows.Forms.TabControl tab_Reservations;
         private System.Windows.Forms.TabPage tab_Journeys;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView data_Journeys;
+        public System.Windows.Forms.DataGridView data_Journeys;
         private System.Windows.Forms.Button btn_book;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cmb_Date;

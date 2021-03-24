@@ -33,3 +33,5 @@ E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.csproj.CopyComplete
 E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.exe
 E:\ITI\Tourism-App\Tourism App\obj\Debug\Tourism App.pdb
 D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism_App.Form2.resources
+D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism_App.Booked.resources
+D:\ITI\C# FirstProject\Tourism\Tourism App\Tourism App\obj\Debug\Tourism App.exe.licenses

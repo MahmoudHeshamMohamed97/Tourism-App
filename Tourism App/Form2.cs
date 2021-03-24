@@ -21,7 +21,7 @@ namespace Tourism_App
         static bool mobile = false;
         static bool address = false;
         static bool NationId = false;
-        private static Data_Context _dbContext;
+        //private static Data_Context _dbContext;
         public Form2()
         {
             InitializeComponent();
@@ -118,11 +118,11 @@ namespace Tourism_App
 
 
             //Create Object from DtaContext
-            _dbContext = new Data_Context();
+            Program._dbContext = new Data_Context();
             Database.SetInitializer<Data_Context>(new MigrateDatabaseToLatestVersion<Data_Context, Migrations.Configuration>());
 
             //read information Employee
-            var Emp = (from s in _dbContext.Employees
+            var Emp = (from s in Program._dbContext.Employees
                        select s).ToList();
 
              
@@ -136,7 +136,7 @@ namespace Tourism_App
 
             //Read Information Journary 
 
-            var Journ = (from s in _dbContext.Journeys
+            var Journ = (from s in Program._dbContext.Journeys
                        select s).ToList();
 
 
@@ -152,7 +152,7 @@ namespace Tourism_App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _dbContext = new Data_Context();
+            Program._dbContext = new Data_Context();
             Database.SetInitializer<Data_Context>(new MigrateDatabaseToLatestVersion<Data_Context, Migrations.Configuration>());
 
             string Name = textBox2.Text.ToString();
@@ -189,8 +189,8 @@ namespace Tourism_App
             };
 
 
-            _dbContext.Employees.Add(emp);
-            _dbContext.SaveChanges();
+            Program._dbContext.Employees.Add(emp);
+            Program._dbContext.SaveChanges();
 
             //show message  
 
@@ -216,7 +216,7 @@ namespace Tourism_App
 
             //read all Data
 
-            var Emp = (from s in _dbContext.Employees
+            var Emp = (from s in Program._dbContext.Employees
                        select s).ToList();
 
 
@@ -257,7 +257,7 @@ namespace Tourism_App
             string NationalID = textBox9.Text;
 
             //read all Data
-            Employee D_Emp = (from s in _dbContext.Employees
+            Employee D_Emp = (from s in Program._dbContext.Employees
                          where s.ID == ID
                          select s).FirstOrDefault();
 
@@ -275,7 +275,7 @@ namespace Tourism_App
             D_Emp.IsAdmin = IsAdmin;
             D_Emp.NationalID = NationalID;
 
-            _dbContext.SaveChanges();
+            Program._dbContext.SaveChanges();
 
             //show message  
 
@@ -296,7 +296,7 @@ namespace Tourism_App
 
             //read all Data
 
-            var Emp = (from s in _dbContext.Employees
+            var Emp = (from s in Program._dbContext.Employees
                        select s).ToList();
 
 
@@ -339,13 +339,13 @@ namespace Tourism_App
             string NationalID = textBox9.Text;
 
             //read all Data
-            var D_Emp = (from s in _dbContext.Employees
+            var D_Emp = (from s in Program._dbContext.Employees
                         where s.ID == ID
                         select s).FirstOrDefault();
 
             //Remove Data
-            _dbContext.Employees.Remove(D_Emp);
-            _dbContext.SaveChanges();
+            Program._dbContext.Employees.Remove(D_Emp);
+            Program._dbContext.SaveChanges();
 
             //show message  
 
@@ -366,7 +366,7 @@ namespace Tourism_App
 
             //read all Data
 
-            var Emp = (from s in _dbContext.Employees
+            var Emp = (from s in Program._dbContext.Employees
                        select s).ToList();
 
 
@@ -522,7 +522,7 @@ namespace Tourism_App
         {
 
             //Journary Added
-            _dbContext = new Data_Context();
+            Program._dbContext = new Data_Context();
             Database.SetInitializer<Data_Context>(new MigrateDatabaseToLatestVersion<Data_Context, Migrations.Configuration>());
 
             string Title = textBox11.Text.ToString();
@@ -565,8 +565,8 @@ namespace Tourism_App
             };
 
 
-            _dbContext.Journeys.Add(Jour);
-            _dbContext.SaveChanges();
+            Program._dbContext.Journeys.Add(Jour);
+            Program._dbContext.SaveChanges();
 
             //show message  
 
@@ -595,7 +595,7 @@ namespace Tourism_App
 
             //read all Data
 
-            var Jo = (from s in _dbContext.Journeys
+            var Jo = (from s in Program._dbContext.Journeys
                        select s).ToList();
 
 
@@ -631,13 +631,13 @@ namespace Tourism_App
 
 
             //read all Data
-            var D_jour = (from s in _dbContext.Journeys
+            var D_jour = (from s in Program._dbContext.Journeys
                          where s.ID == ID
                          select s).FirstOrDefault();
 
             //Remove Data
-            _dbContext.Journeys.Remove(D_jour);
-            _dbContext.SaveChanges();
+            Program._dbContext.Journeys.Remove(D_jour);
+            Program._dbContext.SaveChanges();
 
             //show message  
 
@@ -662,7 +662,7 @@ namespace Tourism_App
 
             //read all Data
 
-            var Emp = (from s in _dbContext.Journeys
+            var Emp = (from s in Program._dbContext.Journeys
                        select s).ToList();
 
 
@@ -693,7 +693,7 @@ namespace Tourism_App
 
 
             //read all Data
-            var D_jour = (from s in _dbContext.Journeys
+            var D_jour = (from s in Program._dbContext.Journeys
                           where s.ID == ID
                           select s).FirstOrDefault();
 
@@ -709,7 +709,7 @@ namespace Tourism_App
             D_jour.Date = dtime;
             D_jour.NumOfReservedChairs = numchair;
 
-            _dbContext.SaveChanges();
+            Program._dbContext.SaveChanges();
 
             //show message  
 
@@ -734,7 +734,7 @@ namespace Tourism_App
 
             //read all Data
 
-            var Emp = (from s in _dbContext.Journeys
+            var Emp = (from s in Program._dbContext.Journeys
                        select s).ToList();
 
 
