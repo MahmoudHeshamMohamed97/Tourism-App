@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,8 +20,9 @@ namespace Tourism_App
         Reserve R = new Reserve();
         public int Journeys_id;
         int avilable;
-        public Booked()
+        public Booked(int id)
         {
+            this.Journeys_id = id;
             InitializeComponent();
         }
 
@@ -42,7 +45,7 @@ namespace Tourism_App
 
             // Context.Reserves.Add(R);
             Journey J = (from j in Context.Journeys
-                         where j.ID == 1
+                         where j.ID == Journeys_id
                          select j).FirstOrDefault();
             avilable = J.MaxNumber - J.NumOfReservedChairs;
             if (avilable < int.Parse(textBox5.Text))
@@ -58,6 +61,42 @@ namespace Tourism_App
                 Context.Reserves.Add(R);
                 Context.SaveChanges();
                 MessageBox.Show("Booked Done");
+
+                #region Send e-mail To Passenger on his Mail
+
+                try
+                {
+
+                    MailMessage msg = new MailMessage();
+                    msg.From = new MailAddress("tourismappteam@gmail.com");
+                    msg.To.Add(textBox1.Text);
+                    msg.Subject = textBox2.Text;
+                    msg.Body = textBox3.Text;
+
+                    SmtpClient smt = new SmtpClient();
+
+                    smt.Host = "smtp.gmail.com";
+                    System.Net.NetworkCredential ntcd = new NetworkCredential();
+                    smt.UseDefaultCredentials = false;
+                    ntcd.UserName = "tourismappteam@gmail.com";
+                    ntcd.Password = "123456789asdasd++";
+                    smt.Credentials = ntcd;
+                    smt.EnableSsl = true;
+                    smt.Port = 587;
+                    smt.Send(msg);
+
+                    MessageBox.Show("Your Mail is sended");
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+
+                #endregion
+
+
             }
 
         }
