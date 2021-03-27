@@ -544,7 +544,12 @@ namespace Tourism_App
 
             string Title = textBox11.Text.ToString();
             string Descrption =textBox12.Text.ToString();
-            int Maxnumber = int.Parse(textBox13.Text);
+            int Maxnumber;
+            if (int.TryParse(textBox13.Text, out Maxnumber))
+                lbl_maxNumber.Visible = false;
+            else
+                lbl_maxNumber.Visible = true;
+
             string Travelway = cmb_TravelWay.SelectedItem.ToString();
             Type travel = Type.Bus;
             if (Travelway.ToLower() == "plane")
@@ -556,74 +561,91 @@ namespace Tourism_App
             //{
             //    gender = Gender.male;
             //}
-            int tickectcost =int.Parse( textBox15.Text.ToString());
-            int  NDay = int.Parse(textBox16.Text.ToString());
+            int tickectcost;
+            if (int.TryParse(textBox15.Text, out tickectcost))
+                lbl_TicketCost.Visible = false;
+            else
+                lbl_TicketCost.Visible = true;
+
+            int NDay;
+            if (int.TryParse(textBox16.Text, out NDay))
+                lbl_numOfDays.Visible = false;
+            else
+                lbl_numOfDays.Visible = true;
+
             string Location = textBox17.Text.ToString();
-            DateTime dtime = DateTime.Parse(dateTimePicker1.Text.ToString());
+            DateTime dtime = /*DateTime.Parse(dateTimePicker1.Text.ToString())*/ dateTimePicker1.Value;
+            if (dtime > DateTime.Now)
+                lbl_Date.Visible = false;
+            else
+                lbl_Date.Visible = true;
+
             int numchair = 0;
 
 
 
-            Journey Jour = new Journey()
+            if (!lbl_maxNumber.Visible && !lbl_TicketCost.Visible && ! lbl_numOfDays.Visible && ! lbl_Date.Visible )
             {
+                Journey Jour = new Journey()
+                {
 
-                Title = Title,
-                Description = Descrption,
-                MaxNumber = Maxnumber,
-                TravelWay = travel,
-                TicketCost = tickectcost,
-                NumOfDays = NDay,
-                Location = Location,
-                Date = dtime,
-                NumOfReservedChairs = numchair
-                
+                    Title = Title,
+                    Description = Descrption,
+                    MaxNumber = Maxnumber,
+                    TravelWay = travel,
+                    TicketCost = tickectcost,
+                    NumOfDays = NDay,
+                    Location = Location,
+                    Date = dtime,
+                    NumOfReservedChairs = numchair
 
-
-
-            };
-
-
-            Program._dbContext.Journeys.Add(Jour);
-            Program._dbContext.SaveChanges();
-
-            //show message  
-
-            MessageBox.Show("Added Success ");
+                };
 
 
-            //Clear Text
+                Program._dbContext.Journeys.Add(Jour);
+                Program._dbContext.SaveChanges();
 
-            textBox11.Text = "";
-            textBox12.Text = "";
-            textBox13.Text = "";
-            //textBox14.Text = "";
-            
-            textBox15.Text = "";
-            textBox16.Text = "";
-            textBox17.Text = "";
-            dateTimePicker1.Text = "";
-          
+                //show message  
+
+                MessageBox.Show("Added Success ");
+
+
+                //Clear Text
+
+                textBox11.Text = "";
+                textBox12.Text = "";
+                textBox13.Text = "";
+                //textBox14.Text = "";
+                cmb_TravelWay.SelectedItem = "";
+                textBox15.Text = "";
+                textBox16.Text = "";
+                textBox17.Text = "";
+                dateTimePicker1.Text = "";
 
 
 
-            // clear datagridview and refresh 
-            dataGridView2.Rows.Clear();
-            dataGridView2.Refresh();
+
+                // clear datagridview and refresh 
+                dataGridView2.Rows.Clear();
+                dataGridView2.Refresh();
 
 
-            //read all Data
+                //read all Data
 
-            var Jo = (from s in Program._dbContext.Journeys
-                       select s).ToList();
+                var Jo = (from s in Program._dbContext.Journeys
+                          select s).ToList();
 
 
 
-            foreach (var item in Jo)
-            {
+                foreach (var item in Jo)
+                {
 
-                dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay.ToString(), item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
+                    dataGridView2.Rows.Add(new String[] { item.ID.ToString(), item.Title, item.Description, item.MaxNumber.ToString(), item.TravelWay.ToString(), item.TicketCost.ToString(), item.NumOfDays.ToString(), item.Location, item.Date.ToString(), item.NumOfReservedChairs.ToString() });
 
+                }
             }
+            else
+                MessageBox.Show("Please Check the errors before adding");
 
 
 
@@ -795,10 +817,21 @@ namespace Tourism_App
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            if(dateTimePicker1.Select > DateTime.Now())
-            {
-                
-            }
+            
+        }
+
+        private void btn_logout2_Click(object sender, EventArgs e)
+        {
+            LoginForm lf = new LoginForm();
+            lf.Show();
+            this.Hide();
+        }
+
+        private void btn_logout_Click(object sender, EventArgs e)
+        {
+            LoginForm lf = new LoginForm();
+            lf.Show();
+            this.Hide();
         }
     }
 }
