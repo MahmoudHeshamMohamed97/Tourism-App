@@ -27,7 +27,7 @@ namespace Tourism_App
             #region Dummy Data
 
 
-            //Dummy Data that should be in the Database to access functionalities
+            ////Dummy Data that should be in the Database to access functionalities
 
             //_dbContext.Employees.Add(new Employee()
             //{
@@ -142,7 +142,7 @@ namespace Tourism_App
 
             #endregion
 
-            Application.Run(new Form1());
+            Application.Run(new Form2());
 
         }
     }

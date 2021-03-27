@@ -21,6 +21,7 @@ namespace Tourism_App
         static bool mobile = false;
         static bool address = false;
         static bool NationId = false;
+        static bool DateValid = false;
         //private static Data_Context _dbContext;
         public Form2()
         {
@@ -117,6 +118,7 @@ namespace Tourism_App
             #endregion
 
 
+         
             //Create Object from DtaContext
             Program._dbContext = new Data_Context();
             Database.SetInitializer<Data_Context>(new MigrateDatabaseToLatestVersion<Data_Context, Migrations.Configuration>());
@@ -156,12 +158,13 @@ namespace Tourism_App
             Database.SetInitializer<Data_Context>(new MigrateDatabaseToLatestVersion<Data_Context, Migrations.Configuration>());
 
             string Name = textBox2.Text.ToString();
-            string Gendertxt = textBox3.Text.ToString();
+            string Gendertxt = cmbGender.Text.ToString();
             Gender gender= Gender.female;
             if(Gendertxt.ToLower()== "male")
             {
                 gender = Gender.male;
             }
+           
             int Age = int.Parse(textBox4.Text);
             string Email = textBox5.Text.ToString();
             string Password = textBox6.Text.ToString();
@@ -200,7 +203,7 @@ namespace Tourism_App
             //Clear Text
 
             textBox2.Text = "";
-            textBox3.Text = "";
+            cmbGender.Text = "";
             textBox4.Text = "";
             textBox5.Text = "";
             textBox6.Text = "";
@@ -243,7 +246,7 @@ namespace Tourism_App
         {
             //update
             string Name = textBox2.Text.ToString();
-            string GenderTxt = textBox3.Text.ToString();
+            string GenderTxt = cmbGender.Text.ToString();
             Gender gender = Gender.female;
             if (GenderTxt.ToLower() == "male")
             {
@@ -253,9 +256,16 @@ namespace Tourism_App
             string Email = textBox5.Text.ToString();
             string Password = textBox6.Text.ToString();
             string Phone = textBox7.Text.ToString();
+            if (textBox7.Text.Length > 11)
+            {
+                MessageBox.Show("Please Entre valid  Phone");
+            }
             bool IsAdmin = checkBox1.Checked;
             string NationalID = textBox9.Text;
-
+            if(textBox9.Text.Length > 14)
+            {
+                MessageBox.Show("Please Entre valid NationalID");
+            }
             //read all Data
             Employee D_Emp = (from s in Program._dbContext.Employees
                          where s.ID == ID
@@ -282,7 +292,7 @@ namespace Tourism_App
             MessageBox.Show("Updated Success ");
 
             textBox2.Text = "";
-            textBox3.Text = "";
+            cmbGender.Text = "";
             textBox4.Text = "";
             textBox5.Text = "";
             textBox6.Text = "";
@@ -330,7 +340,7 @@ namespace Tourism_App
             //Delete
 
             string Name = textBox2.Text.ToString();
-            string Gender = textBox3.Text.ToString();
+            string Gender = cmbGender.Text.ToString();
             int Age = int.Parse(textBox4.Text);
             string Email = textBox5.Text.ToString();
             string Password = textBox6.Text.ToString();
@@ -352,7 +362,7 @@ namespace Tourism_App
             MessageBox.Show("Deleted Success ");
 
             textBox2.Text="";
-            textBox3.Text="";
+            cmbGender.Text="";
             textBox4.Text = "";
             textBox5.Text = "";
             textBox6.Text = "";
@@ -419,7 +429,12 @@ namespace Tourism_App
             {
                 DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
                 textBox2.Text = row.Cells["Name"].Value.ToString();
-                textBox3.Text = row.Cells["Gender"].Value.ToString();
+
+                string gender = row.Cells["gender"].Value.ToString();
+                cmbGender.SelectedItem = "Male";
+                if (gender.ToLower() == "Female")
+                    cmb_TravelWay.SelectedItem = "Male";
+                //cmbGender.Text = row.Cells["Gender"].Value.ToString();
                 textBox4.Text = row.Cells["Age"].Value.ToString();
                 textBox5.Text = row.Cells["Email"].Value.ToString();
                 textBox6.Text = row.Cells["Password"].Value.ToString();
@@ -429,10 +444,12 @@ namespace Tourism_App
 
                 if (row.Cells["IsAdmin"].Value.ToString()=="True")
                 {
-
                     checkBox1.Checked = true;
                 }
-             
+                else
+                {
+                    checkBox1.Checked = false;
+                }
 
 
             }
@@ -461,8 +478,8 @@ namespace Tourism_App
                 textBox15.Text = row.Cells["TicketCost"].Value.ToString();
                 textBox16.Text = row.Cells["NumOfDays"].Value.ToString();
                 textBox17.Text = row.Cells["Location"].Value.ToString();
-                textBox18.Text = row.Cells["Date"].Value.ToString();
-                textBox19.Text = row.Cells["NumOfReservedChairs"].Value.ToString();
+                dateTimePicker1.Text = row.Cells["Date"].Value.ToString();
+               
 
                 ID = int.Parse(row.Cells["ID"].Value.ToString());
             }
@@ -532,6 +549,7 @@ namespace Tourism_App
             Type travel = Type.Bus;
             if (Travelway.ToLower() == "plane")
                 travel = Type.Plane;
+
             //string Travalway = textBox14.Text.ToString();
             //Type gender = Gender.female;
             //if (Gendertxt.ToLower() == "male")
@@ -541,8 +559,8 @@ namespace Tourism_App
             int tickectcost =int.Parse( textBox15.Text.ToString());
             int  NDay = int.Parse(textBox16.Text.ToString());
             string Location = textBox17.Text.ToString();
-            DateTime dtime = DateTime.Parse(textBox18.Text.ToString());
-            int numchair =int.Parse( textBox19.Text.ToString());
+            DateTime dtime = DateTime.Parse(dateTimePicker1.Text.ToString());
+            int numchair = 0;
 
 
 
@@ -583,8 +601,8 @@ namespace Tourism_App
             textBox15.Text = "";
             textBox16.Text = "";
             textBox17.Text = "";
-            textBox18.Text = "";
-            textBox19.Text = "";
+            dateTimePicker1.Text = "";
+          
 
 
 
@@ -626,9 +644,8 @@ namespace Tourism_App
             int tickectcost = int.Parse(textBox15.Text.ToString());
             int NDay = int.Parse(textBox16.Text.ToString());
             string Location = textBox17.Text.ToString();
-            DateTime dtime = DateTime.Parse(textBox18.Text.ToString());
-            int numchair = int.Parse(textBox19.Text.ToString());
-
+            DateTime dtime = DateTime.Parse(dateTimePicker1.Text.ToString());
+   
 
             //read all Data
             var D_jour = (from s in Program._dbContext.Journeys
@@ -653,8 +670,8 @@ namespace Tourism_App
             textBox15.Text = "";
             textBox16.Text = "";
             textBox17.Text = "";
-            textBox18.Text = "";
-            textBox19.Text = "";
+            dateTimePicker1.Text = "";
+    
 
             // clear datagridview and refresh 
             dataGridView2.Rows.Clear();
@@ -688,8 +705,8 @@ namespace Tourism_App
                 Travalway = Type.Plane; int tickectcost = int.Parse(textBox15.Text.ToString());
             int NDay = int.Parse(textBox16.Text.ToString());
             string Location = textBox17.Text.ToString();
-            DateTime dtime = DateTime.Parse(textBox18.Text.ToString());
-            int numchair = int.Parse(textBox19.Text.ToString());
+            DateTime dtime = DateTime.Parse(dateTimePicker1.Text.ToString());
+ 
 
 
             //read all Data
@@ -707,13 +724,13 @@ namespace Tourism_App
             D_jour.NumOfDays = NDay;
             D_jour.Location = Location;
             D_jour.Date = dtime;
-            D_jour.NumOfReservedChairs = numchair;
+            D_jour.NumOfReservedChairs = 0;
 
             Program._dbContext.SaveChanges();
 
             //show message  
 
-            MessageBox.Show("Updated Success ");
+            //MessageBox.Show("Updated Success ");
 
             //Clear Text
 
@@ -725,9 +742,8 @@ namespace Tourism_App
             textBox15.Text = "";
             textBox16.Text = "";
             textBox17.Text = "";
-            textBox18.Text = "";
-            textBox19.Text = "";
-
+            dateTimePicker1.Text = "";
+ 
             // clear datagridview and refresh 
             dataGridView2.Rows.Clear();
             dataGridView2.Refresh();
@@ -759,6 +775,29 @@ namespace Tourism_App
             {
                 lblNationValid.Text = "";
                 NationId = true;
+            }
+        }
+
+        private void cmb_TravelWay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox18_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox19_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if(dateTimePicker1.Select > DateTime.Now())
+            {
+                
             }
         }
     }
