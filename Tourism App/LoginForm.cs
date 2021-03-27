@@ -46,5 +46,10 @@ namespace Tourism_App
                 lbl_Error.Visible = true;
 
         }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            this.skinEngine1.SkinFile = "Skine_Files/Skins/GlassBrown.ssk";
+        }
     }
 }

@@ -142,7 +142,7 @@ namespace Tourism_App
 
             #endregion
 
-            Application.Run(new Form2());
+            Application.Run(new Form1());
 
         }
     }

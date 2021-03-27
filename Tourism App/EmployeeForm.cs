@@ -24,6 +24,7 @@ namespace Tourism_App
 
         private void EmployeeForm_Load(object sender, EventArgs e)
         {
+            this.skinEngine1.SkinFile = "Skine_Files/Skins/GlassBrown.ssk";
             // Insert Filterations into Combo Boxes
 
             //List<string> TravelWayList = new List<string>();

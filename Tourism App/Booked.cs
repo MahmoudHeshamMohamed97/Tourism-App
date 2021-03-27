@@ -186,7 +186,7 @@ namespace Tourism_App
 
         private void Booked_Load(object sender, EventArgs e)
         {
-
+            this.skinEngine1.SkinFile = "Skine_Files/Skins/GlassBrown.ssk";
         }
     }
 }

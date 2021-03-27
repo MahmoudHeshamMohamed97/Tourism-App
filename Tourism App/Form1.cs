@@ -20,6 +20,7 @@ namespace Tourism_App
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.skinEngine1.SkinFile = "Skine_Files/Skins/GlassBrown.ssk";
             timer1.Start();
         }
 
