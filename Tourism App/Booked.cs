@@ -77,10 +77,12 @@ namespace Tourism_App
                     msg.From = new MailAddress("tourismappteam@gmail.com");
                     msg.To.Add(txt_email.Text);
                     msg.Subject = "Tourism App Team";
-                    msg.Body = $"Dear {p.Name},\nThis Mail confirms that you have just booked {R.NumOfTickets} at " +
-                        $"{DateTime.Now.ToShortDateString().ToString()}\nHope for You a nice Journey,\nTourism App Team,\nRegards.";
+                    msg.Body = $"Dear {p.Name},\nThis Mail confirms that you have just booked {R.NumOfTickets} Tickets " +
+                        $"In our Journey \"{J.Title}\" with ResrvationID: {R.ID} at " +
+                        $"{DateTime.Now.ToShortDateString().ToString()}\nHope for You a nice Journey,\nTourism App Team,\nRegards.\n" +
+                        $"\n\nNote: The Reservation ID you need to keep it if you need to update your number of Tickets";
 
-                    //msg.Attachments.Add(new Attachment("path"));
+                    msg.Attachments.Add(new Attachment("../../Resources/ticket.jpg"));
 
                     SmtpClient smt = new SmtpClient();
 

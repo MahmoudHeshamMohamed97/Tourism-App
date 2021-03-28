@@ -23,9 +23,9 @@ namespace Tourism_App
             Employee obj = (from emp in Program._dbContext.Employees
                            where emp.Email == txt_UserName.Text && emp.Password == txt_Password.Text
                            select emp).FirstOrDefault();
-            EmpID = obj.ID;
             if (obj != null)
             {
+
                 lbl_Error.Visible = false;
                 if (obj.IsAdmin)
                 {
@@ -36,6 +36,8 @@ namespace Tourism_App
                 }
                 else
                 {
+                    EmpID = obj.ID;
+
                     MessageBox.Show("Hello Employee");
                     EmployeeForm employeeForm = new EmployeeForm();
                     this.Hide();

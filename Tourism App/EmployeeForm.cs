@@ -105,7 +105,8 @@ namespace Tourism_App
             //data_Journeys.Rows.Clear();
 
             IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
-                                            where (j.MaxNumber - j.NumOfReservedChairs) > 0
+                                            where (j.MaxNumber - j.NumOfReservedChairs) > 0 &&
+                                            (j.Date >= DateTime.Now)
                                             select j;
 
             foreach (var item in journeys)
@@ -199,25 +200,31 @@ namespace Tourism_App
             {
                 lbl_budget.Visible = false;
                 IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
+                                                where (j.Date >= DateTime.Now)
                                                 select j;
 
-                
-                if( cmb_travelWay.SelectedItem.ToString() != "")
-                    journeys = journeys.Where(j => j.TravelWay.ToString() == cmb_travelWay.SelectedItem.ToString());
-                
-                if( cmb_location.SelectedItem.ToString() != "" )
-                    journeys = journeys.Where(j => j.Location == cmb_location.SelectedItem.ToString());
 
-                if( cmb_numOfDays.SelectedItem.ToString() != "" )
-                    journeys = journeys.Where(j => j.NumOfDays.ToString() == cmb_numOfDays.SelectedItem.ToString());
+                if (journeys != null)
+                {
+                    if (cmb_travelWay.SelectedItem.ToString() != "")
+                        journeys = journeys.Where(j => (j.TravelWay.ToString() == cmb_travelWay.SelectedItem.ToString()) && (j.Date >= DateTime.Now));
 
-                if( cmb_Date.SelectedItem.ToString() != "" )
-                    journeys = journeys.Where(j => j.Date == DateTime.Parse(cmb_Date.SelectedItem.ToString())  );
+                    if (cmb_location.SelectedItem.ToString() != "")
+                        journeys = journeys.Where(j => (j.Location == cmb_location.SelectedItem.ToString()) && (j.Date >= DateTime.Now));
 
-                
+                    if (cmb_numOfDays.SelectedItem.ToString() != "")
+                        journeys = journeys.Where(j => (j.NumOfDays.ToString() == cmb_numOfDays.SelectedItem.ToString()) && (j.Date >= DateTime.Now));
 
-                if (budget > 0)
-                    journeys = journeys.Where( j => j.TicketCost <= budget );
+                    if (cmb_Date.SelectedItem.ToString() != "")
+                        journeys = journeys.Where(j => (j.Date == DateTime.Parse(cmb_Date.SelectedItem.ToString())) && (j.Date >= DateTime.Now));
+
+
+
+                    if (budget > 0)
+                        journeys = journeys.Where(j => j.TicketCost <= budget);
+                }
+                else
+                    MessageBox.Show("No Journeys avaialable");
 
 
                 data_Journeys.Rows.Clear();
@@ -343,6 +350,7 @@ namespace Tourism_App
         public void loadjourneys()
         {
             IEnumerable<Journey> journeys = from j in Program._dbContext.Journeys
+                                            where j.Date >= DateTime.Now
                                             select j;
             foreach (var item in journeys)
             {
